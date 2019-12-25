@@ -1,0 +1,46 @@
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous">
+</script>
+
+<script>
+$(document).ready(function(){
+
+    $("button").click(function(){
+        
+        let body = document.getElementsByTagName("body")[0];
+        let loading = document.createElement("div");
+        loading.innerHTML = "Loading...";
+        body.append(loading);
+
+        $.ajax({
+            url: $("button").attr('server_address'), 
+            success: function(result){
+                
+                loading.remove();
+                let new_div = document.createElement("div");
+                new_div.innerHTML = result;
+                body.append(new_div);
+
+            }});
+        });
+   
+})
+</script>
+
+<h1>This is Home</h1>
+
+{% if user.is_authenticated %}
+<p>Welcome {{ user.username }} !!!</p>       
+{% else %}
+<p>Welcome stranger !!!</p> 
+{% endif %}
+
+<div>
+    <button server_address="{% url 'home.get_data' %}">Click Me For Ajax</button>
+</div>
+<br>
+<div>
+    <a href="{% url 'logout' %}">Logout</a>
+</div>
